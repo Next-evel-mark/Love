@@ -1,0 +1,264 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teddy Love</title>
+  <style>
+    :root{--bg:#FDF6F6;--accent:#ff6b81;--muted:#8b8b8b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fff 0%,#ffeef3 100%);color:#333}
+    .stage{width:960px;max-width:96vw;padding:24px;border-radius:18px;background:rgba(255,255,255,0.8);box-shadow:0 10px 30px rgba(14,14,14,0.12);text-align:center}
+    h1{font-size:28px;margin:10px 0 20px}
+    .teddies{display:flex;gap:40px;align-items:flex-end;justify-content:center}/* --- Teddy (CSS-only) --- */
+.teddy{width:220px;height:260px;position:relative}
+.bear{position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.head{width:140px;height:120px;background:#8b5a3c;border-radius:60% 60% 55% 55%;position:relative;margin:0 auto;box-shadow:inset -6px -6px 0 rgba(0,0,0,0.06)}
+.ear{width:46px;height:46px;background:#8b5a3c;border-radius:50%;position:absolute;top:-14px}
+.ear.left{left:-10px}
+.ear.right{right:-10px}
+.face{position:absolute;top:26px;left:50%;transform:translateX(-50%);width:100px}
+.eye{width:12px;height:12px;background:#111;border-radius:50%;display:inline-block;margin:0 12px}
+.nose{width:22px;height:16px;background:#3b2416;margin:10px auto;border-radius:60%}
+.mouth{height:8px;width:50px;margin:4px auto;border-bottom-left-radius:30px;border-bottom-right-radius:30px;border-bottom:3px solid rgba(0,0,0,0.06)}
+.body{width:160px;height:140px;background:linear-gradient(#9f6b49,#855037);border-radius:42px;margin:-8px auto 0;position:relative;padding-top:24px}
+.tummy{width:90px;height:70px;background:#ffefdc;border-radius:50%;margin:6px auto}
+.arm{width:48px;height:80px;background:#8b5a3c;border-radius:24px;position:absolute;top:20px}
+.arm.left{left:-22px;transform-origin:top right}
+.arm.right{right:-22px;transform-origin:top left}
+
+/* female clothes */
+.female .body{background:linear-gradient(#f7b7c0,#ee9fb3)}
+.female .tummy{background:#fff0f4}
+.female .bow{position:absolute;top:-8px;left:12px;width:24px;height:24px;background:#ff6b81;border-radius:4px;transform:rotate(-15deg)}
+.male .body{background:linear-gradient(#7aa6ff,#557adf)}
+.male .tummy{background:#eaf4ff}
+
+/* Hug animation */
+.hug-left{animation:reachLeft 600ms ease forwards}
+.hug-right{animation:reachRight 600ms ease forwards}
+@keyframes reachLeft{to{transform:rotate(-40deg) translateX(-6px) translateY(8px)}}
+@keyframes reachRight{to{transform:rotate(40deg) translateX(6px) translateY(8px)}}
+
+/* Buttons */
+.controls{margin-top:22px;display:flex;gap:18px;justify-content:center}
+button{padding:12px 22px;border-radius:999px;border:0;font-weight:600;cursor:pointer;font-size:16px}
+.yes{background:linear-gradient(90deg,var(--accent),#ff4571);color:#fff}
+.no{background:#eee;color:#444}
+
+/* Letter */
+.letter{margin-top:20px;max-width:600px;margin-left:auto;margin-right:auto;text-align:left;padding:18px;border-radius:14px;background:linear-gradient(180deg,#fff,#fffef7);box-shadow:0 8px 30px rgba(17,17,17,0.06);display:none}
+.letter.show{display:block;animation:fadeInUp 420ms ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.letter h2{margin:0 0 8px}
+.signature{margin-top:12px;font-weight:700;color:var(--accent)}
+
+/* No place */
+.no-place{display:none;padding:36px;border-radius:12px;background:#fff7fb;margin-top:18px}
+.no-place.show{display:block}
+
+/* Responsive */
+@media (max-width:640px){.teddies{flex-direction:row;gap:10px}.teddy{width:160px;height:200px}}
+
+  </style>
+</head>
+<body>
+  <div class="stage" role="main">
+    <h1>I LIKE YOU....DO YOU LIKE ME?</h1><div class="teddies" aria-hidden="false">
+  <div class="teddy" id="leftTeddy">
+    <div class="bear male">
+      <div class="head">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="face">
+          <div class="eye"></div><div class="eye"></div>
+          <div class="nose"></div>
+          <div class="mouth"></div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="tummy"></div>
+      </div>
+      <div class="arm left" id="leftArm" style="transform:rotate(0deg)"></div>
+      <div class="arm right" id="leftArm2" style="transform:rotate(0deg);right:10px"></div>
+    </div>
+  </div>
+
+  <div class="teddy" id="rightTeddy">
+    <div class="bear female">
+      <div class="head">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="bow" aria-hidden="true"></div>
+        <div class="face">
+          <div class="eye"></div><div class="eye"></div>
+          <div class="nose"></div>
+          <div class="mouth"></div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="tummy"></div>
+      </div>
+      <div class="arm left" id="rightArm" style="left:10px"></div>
+      <div class="arm right" id="rightArm2"></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="yes" id="yesBtn">Yes</button>
+  <button class="no" id="noBtn">No</button>
+</div>
+
+<div class="letter" id="letterBox" aria-live="polite">
+  <h2 id="letterTitle">A little letter</h2>
+  <div id="letterContent">(letter will appear here)</div>
+  <div class="signature" id="signature">— Someone who cares</div>
+</div>
+
+<div class="no-place" id="noPlace">
+  <strong>Oh no!</strong>
+  <p>You chose "No" — the teddies look sad and walk away. Maybe later? ❤️</p>
+  <button id="tryAgain" style="padding:10px 14px;border-radius:10px;border:0;background:var(--accent);color:#fff;cursor:pointer">Try again</button>
+</div>
+
+  </div>  <script>
+    // Element refs
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const letterBox = document.getElementById('letterBox');
+    const letterContent = document.getElementById('letterContent');
+    const signature = document.getElementById('signature');
+    const leftArm = document.getElementById('leftArm');
+    const rightArm = document.getElementById('rightArm');
+    const leftArm2 = document.getElementById('leftArm2');
+    const rightArm2 = document.getElementById('rightArm2');
+    const noPlace = document.getElementById('noPlace');
+    const tryAgain = document.getElementById('tryAgain');
+
+    // Letter templates (randomized)
+    const openers = [
+      "From the moment I first saw your smile,",
+      "I still remember the first time we talked",
+      "It wasn't sudden — it was a thousand small moments",
+      "I used to wonder if you'd ever notice me,",
+      "You might not notice, but I've noticed everything about you:"
+    ];
+
+    const middles = [
+      "you laughed at my terrible jokes and somehow made them better.",
+      "the way you looked at the sky made me want to be better.",
+      "your kindness surprised me and made me believe in simple magic.",
+      "every tiny text from you felt like a pocket-sized sunrise.",
+      "it's your stubbornness and softness that made me sure of us."
+    ];
+
+    const closers = [
+      "I learned to be brave because of you.",
+      "I learned that home could be a person, not a place.",
+      "you are my favorite what-if turned into an actual truth.",
+      "I don't need perfect — I need you.",
+      "So here I am, opening my heart and hoping you feel the same."
+    ];
+
+    const signoffs = ["Yours truly","Always","Forever yours","— A secret admirer","With all my heart"];
+
+    function randomItem(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    function makeLetter(){
+      // Build a small, sweet love letter
+      const opener = randomItem(openers);
+      const middle = randomItem(middles);
+      const closer = randomItem(closers);
+      const sign = randomItem(signoffs);
+      return `${opener} ${middle} ${closer}\n\n${sign}`;
+    }
+
+    function showHug(){
+      // Add animation classes to arms
+      leftArm.classList.add('hug-left');
+      rightArm.classList.add('hug-right');
+      leftArm2.classList.add('hug-left');
+      rightArm2.classList.add('hug-right');
+
+      // Slight scale + move teddies together
+      document.getElementById('leftTeddy').style.transform = 'translateX(-18px) translateY(6px)';
+      document.getElementById('rightTeddy').style.transform = 'translateX(18px) translateY(6px)';
+    }
+
+    function resetHug(){
+      leftArm.classList.remove('hug-left');
+      rightArm.classList.remove('hug-right');
+      leftArm2.classList.remove('hug-left');
+      rightArm2.classList.remove('hug-right');
+      document.getElementById('leftTeddy').style.transform = '';
+      document.getElementById('rightTeddy').style.transform = '';
+    }
+
+    yesBtn.addEventListener('click', () => {
+      // hide no-place if visible
+      noPlace.classList.remove('show');
+      // generate a letter
+      const letter = makeLetter();
+      // put into DOM with line breaks
+      letterContent.textContent = letter;
+      signature.textContent = randomItem(signoffs);
+      // show letter
+      letterBox.classList.add('show');
+      // animate hug
+      showHug();
+      // subtle confetti (simple)
+      littleConfetti();
+    });
+
+    noBtn.addEventListener('click', () => {
+      // hide letter if showing
+      letterBox.classList.remove('show');
+      resetHug();
+      // show alternate place
+      noPlace.classList.add('show');
+      // scroll into view (for small screens)
+      noPlace.scrollIntoView({behavior:'smooth',block:'center'});
+    });
+
+    tryAgain.addEventListener('click', ()=>{
+      noPlace.classList.remove('show');
+      // tiny shake to invite choice
+      document.querySelector('.stage').animate([
+        {transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}
+      ],{duration:360,iterations:1});
+    });
+
+    // Small confetti using DOM elements (non-library)
+    function littleConfetti(){
+      const colors = ['#ffd7e0','#ffd4b2','#e0f3ff','#ffd1f2','#fff3b0'];
+      for(let i=0;i<18;i++){
+        const s = document.createElement('div');
+        s.style.position='fixed';
+        s.style.left=(50+Math.random()*18-9)+'%';
+        s.style.top=(30+Math.random()*10-5)+'%';
+        s.style.width='8px'; s.style.height='8px';
+        s.style.borderRadius='3px';
+        s.style.background=colors[Math.floor(Math.random()*colors.length)];
+        s.style.opacity='0.95';
+        s.style.pointerEvents='none';
+        s.style.transform=`translateY(0) rotate(${Math.random()*360}deg)`;
+        s.style.zIndex=9999;
+        document.body.appendChild(s);
+        const dx = (Math.random()*200-100);
+        s.animate([
+          {transform:`translate(${dx}px,0) rotate(0deg)`,opacity:1},
+          {transform:`translate(${dx}px,250px) rotate(360deg)`,opacity:0}
+        ],{duration:1200+Math.random()*800, easing:'ease-out'}).onfinish = ()=> s.remove();
+      }
+    }
+
+    // Accessibility: allow keyboard
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='y' || e.key==='Y') yesBtn.click();
+      if(e.key==='n' || e.key==='N') noBtn.click();
+    });
+
+  </script></body>
+</html>
